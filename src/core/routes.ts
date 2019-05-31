@@ -97,6 +97,8 @@ export const ROUTES = {
   megaphoneLog: 'megaphone/log/',
   block: 'friendships/block/<%= id %>/',
   unblock: 'friendships/unblock/<%= id %>/',
+  mutePosts: 'friendships/mute_posts_or_story_from_follow/',
+  muteStory: 'friendships/mute_posts_or_story_from_follow/',
   save: 'media/<%= id %>/save/',
   unsave: 'media/<%= id %>/unsave/',
   userStory: 'feed/reels_media/',
