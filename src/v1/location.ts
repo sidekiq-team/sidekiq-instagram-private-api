@@ -6,6 +6,7 @@ import { InstagramResource as Resource } from './resource';
 import { Request } from '../core/request';
 import { Media } from './media';
 import * as Exceptions from '../core/exceptions';
+import _Bluebird from 'bluebird';
 
 export class Location extends Resource {
   static getRankedMedia(session, locationId) {

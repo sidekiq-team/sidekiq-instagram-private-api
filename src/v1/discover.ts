@@ -2,6 +2,7 @@ import { plainToClass } from 'class-transformer';
 import { UserResponse } from '../responses/user.response';
 import { Request } from '../core/request';
 import { Helpers } from '../helpers';
+import _Bluebird from 'bluebird';
 
 const _ = require('lodash');
 

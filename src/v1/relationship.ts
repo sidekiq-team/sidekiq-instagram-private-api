@@ -1,12 +1,23 @@
 'use strict';
+import _ from 'lodash';
+import { Session } from '../core/session';
+
 Object.defineProperty(exports, '__esModule', { value: true });
 const class_transformer_1 = require('class-transformer');
 const user_response_1 = require('../responses/user.response');
 const request_1 = require('../core/request');
-const _ = require('lodash');
 const resource_1 = require('./resource');
 const Exceptions = require('../core/exceptions');
-class Relationship extends resource_1.InstagramResource {
+
+export class Relationship extends resource_1.InstagramResource {
+  constructor(session, params) {
+    super();
+    if (!(session instanceof Session)) throw new Error('Argument `session` is not instace of Session');
+    this._session = session;
+    this._params = {};
+    this.setParams(_.isObject(params) ? params : {});
+  }
+
   static get(session, accountId) {
     return new request_1.Request(session)
       .setMethod('GET')
