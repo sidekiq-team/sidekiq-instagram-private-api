@@ -6,7 +6,7 @@ import {
   Session,
   WebRequest,
 } from '../core';
-import Bluebird from 'bluebird';
+import * as Bluebird from 'bluebird';
 import { StatusCodeError } from 'request-promise/errors';
 
 const SHARED_JSON_REGEXP = /window._sharedData = (.*);<\/script>/i;
