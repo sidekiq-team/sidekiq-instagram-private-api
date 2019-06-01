@@ -157,26 +157,12 @@ class Relationship extends resource_1.InstagramResource {
             return relationship;
         });
     }
-    static mutePosts(session, accountId) {
+    static mutePostsAndStory(session, accountId) {
         return new request_1.Request(session)
             .setMethod('POST')
-            .setResource('mutePosts')
+            .setResource('mutePostsAndStory')
             .generateUUID()
-            .setData({ target_posts_author_id: accountId })
-            .signPayload()
-            .send()
-            .then(data => {
-            const relationship = new Relationship(session, data.friendship_status);
-            relationship.setAccountId(accountId);
-            return relationship;
-            });
-    }
-    static muteStory(session, accountId) {
-    return new request_1.Request(session)
-            .setMethod('POST')
-            .setResource('muteStory', { id: accountId })
-            .generateUUID()
-            .setData({ target_reel_author_id: accountId })
+            .setData({ target_posts_author_id: accountId, target_reel_author_id: accountId })
             .signPayload()
             .send()
             .then(data => {
@@ -206,11 +192,8 @@ class Relationship extends resource_1.InstagramResource {
     unblock() {
         return Relationship.unblock(this.session, this.accountId);
     }
-    mutePosts() {
-        return Relationship.mutePosts(this.session, this.accountId);
-    }
-    unmutePosts() {
-        return Relationship.unmutePosts(this.session, this.accountId);
+    mutePostsAndStory() {
+        return Relationship.mutePostsAndStory(this.session, this.accountId);
     }
 }
 exports.Relationship = Relationship;
