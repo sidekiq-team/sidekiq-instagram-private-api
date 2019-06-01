@@ -1,25 +1,13 @@
-'use strict';
-import _ from 'lodash';
-import { Session } from '../core/session';
+import { plainToClass } from 'class-transformer';
+import { UserResponse } from '../responses/user.response';
+import { Request } from '../core/request';
+import * as _ from 'lodash';
+import { InstagramResource as Resource } from './resource';
+import * as Exceptions from '../core/exceptions';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-const class_transformer_1 = require('class-transformer');
-const user_response_1 = require('../responses/user.response');
-const request_1 = require('../core/request');
-const resource_1 = require('./resource');
-const Exceptions = require('../core/exceptions');
-
-export class Relationship extends resource_1.InstagramResource {
-  constructor(session, params) {
-    super();
-    if (!(session instanceof Session)) throw new Error('Argument `session` is not instace of Session');
-    this._session = session;
-    this._params = {};
-    this.setParams(_.isObject(params) ? params : {});
-  }
-
+export class Relationship extends Resource {
   static get(session, accountId) {
-    return new request_1.Request(session)
+    return new Request(session)
       .setMethod('GET')
       .setResource('friendshipShow', { id: accountId })
       .send()
@@ -29,8 +17,9 @@ export class Relationship extends resource_1.InstagramResource {
         return relationship;
       });
   }
+
   static pendingFollowers(session) {
-    return new request_1.Request(session)
+    return new Request(session)
       .setMethod('GET')
       .setResource('friendshipPending')
       .generateUUID()
@@ -44,8 +33,9 @@ export class Relationship extends resource_1.InstagramResource {
         }),
       );
   }
+
   static approvePending(session, accountId) {
-    return new request_1.Request(session)
+    return new Request(session)
       .setMethod('POST')
       .setResource('friendshipPendingApprove', { id: accountId })
       .setData({
@@ -55,8 +45,9 @@ export class Relationship extends resource_1.InstagramResource {
       .signPayload()
       .send();
   }
+
   static removeFollower(session, accountId) {
-    return new request_1.Request(session)
+    return new Request(session)
       .setMethod('POST')
       .setResource('friendshipRemoveFollower', { id: accountId })
       .setData({
@@ -66,8 +57,9 @@ export class Relationship extends resource_1.InstagramResource {
       .signPayload()
       .send();
   }
+
   static getMany(session, accountIds) {
-    return new request_1.Request(session)
+    return new Request(session)
       .setMethod('POST')
       .generateUUID()
       .setData({ user_ids: accountIds.join(',') })
@@ -81,8 +73,9 @@ export class Relationship extends resource_1.InstagramResource {
         }),
       );
   }
+
   static create(session, accountId) {
-    return new request_1.Request(session)
+    return new Request(session)
       .setMethod('POST')
       .setResource('follow', { id: accountId })
       .generateUUID()
@@ -102,8 +95,9 @@ export class Relationship extends resource_1.InstagramResource {
         }
       });
   }
+
   static destroy(session, accountId) {
-    return new request_1.Request(session)
+    return new Request(session)
       .setMethod('POST')
       .setResource('unfollow', { id: accountId })
       .generateUUID()
@@ -116,17 +110,19 @@ export class Relationship extends resource_1.InstagramResource {
         return relationship;
       });
   }
+
   static autocompleteUserList(session) {
-    return new request_1.Request(session)
+    return new Request(session)
       .setMethod('GET')
       .setResource('autocompleteUserList')
       .send()
       .then(json => {
-        json.accounts = class_transformer_1.plainToClass(user_response_1.UserResponse, json.users);
+        json.accounts = plainToClass(UserResponse, json.users);
         json.expires = parseInt(`${json.expires * 1000}`);
         return json;
       });
   }
+
   static getBootstrapUsers(session) {
     const surfaces = [
       'coefficient_direct_closed_friends_ranking',
@@ -135,7 +131,8 @@ export class Relationship extends resource_1.InstagramResource {
       'coefficient_ios_section_test_bootstrap_ranking',
       'autocomplete_user_list',
     ];
-    return new request_1.Request(session)
+
+    return new Request(session)
       .setMethod('GET')
       .setResource('getBootstrapUsers', {
         surfaces: encodeURIComponent(JSON.stringify(surfaces)),
@@ -143,8 +140,9 @@ export class Relationship extends resource_1.InstagramResource {
       .setBodyType('form')
       .send();
   }
+
   static block(session, accountId) {
-    return new request_1.Request(session)
+    return new Request(session)
       .setMethod('POST')
       .setResource('block', { id: accountId })
       .generateUUID()
@@ -157,8 +155,9 @@ export class Relationship extends resource_1.InstagramResource {
         return relationship;
       });
   }
+
   static unblock(session, accountId) {
-    return new request_1.Request(session)
+    return new Request(session)
       .setMethod('POST')
       .setResource('unblock', { id: accountId })
       .generateUUID()
@@ -171,6 +170,7 @@ export class Relationship extends resource_1.InstagramResource {
         return relationship;
       });
   }
+
   static mutePostsAndStory(session, accountId) {
     return new request_1.Request(session)
       .setMethod('POST')
@@ -189,6 +189,7 @@ export class Relationship extends resource_1.InstagramResource {
   setAccountId(accountId) {
     this.accountId = parseInt(accountId);
   }
+
   getParams() {
     return _.defaults(
       {
@@ -197,21 +198,24 @@ export class Relationship extends resource_1.InstagramResource {
       this._params,
     );
   }
+
   approvePending() {
     return Relationship.approvePending(this.session, this.accountId);
   }
+
   removeFollower() {
     return Relationship.removeFollower(this.session, this.accountId);
   }
+
   block() {
     return Relationship.block(this.session, this.accountId);
   }
+
   unblock() {
     return Relationship.unblock(this.session, this.accountId);
   }
+
   mutePostsAndStory() {
     return Relationship.mutePostsAndStory(this.session, this.accountId);
   }
 }
-exports.Relationship = Relationship;
-//# sourceMappingURL=relationship.js.map

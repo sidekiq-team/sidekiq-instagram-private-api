@@ -4,7 +4,6 @@ const camelKeys = require('camelcase-keys');
 import { Request } from '../core/request';
 import { Helpers } from '../helpers';
 import { InstagramResource as Resource } from './resource';
-import _Bluebird from 'bluebird';
 
 export class Hashtag extends Resource {
   static search(session, query) {

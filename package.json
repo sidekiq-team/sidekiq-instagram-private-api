@@ -1,7 +1,7 @@
 {
   "name": "sidekiq-instagram-private-api",
   "description": "Fork of instagram-private-api",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

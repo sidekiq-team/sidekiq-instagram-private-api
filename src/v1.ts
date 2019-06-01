@@ -7,7 +7,6 @@ import { CookieMemoryStorage } from './core/cookies/cookie-memory-storage';
 import * as Exceptions from './core/exceptions';
 import { pruned as prunedJson } from './v1/json-pruned';
 import { InstagramResource as Resource } from './v1/resource';
-import _Bluebird from 'bluebird';
 
 import { Request } from './core/request';
 import { Session } from './core/session';

@@ -1,7 +1,7 @@
 import { plainToClass } from 'class-transformer';
 import { UserResponse } from '../responses/user.response';
 import { Request } from '../core/request';
-import _Bluebird from 'bluebird';
+
 import { InstagramResource as Resource } from './resource';
 
 const _ = require('lodash');

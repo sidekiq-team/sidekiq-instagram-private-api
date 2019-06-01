@@ -1,6 +1,5 @@
 import { InstagramResource as Resource } from './resource';
 import { Request } from '../core/request';
-import * as _Bluebird from 'bluebird';
 
 export class Save extends Resource {
   static create(session, mediaId) {

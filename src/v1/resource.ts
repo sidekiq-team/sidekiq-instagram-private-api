@@ -1,5 +1,5 @@
 const EventEmitter = require('events').EventEmitter;
-import _ from 'lodash';
+const _ = require('lodash');
 import { Request } from '../core/request';
 import { Session } from '../core/session';
 
