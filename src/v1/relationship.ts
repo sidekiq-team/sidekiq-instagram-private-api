@@ -172,7 +172,7 @@ export class Relationship extends Resource {
   }
 
   static mutePostsAndStory(session, accountId) {
-    return new request_1.Request(session)
+    return new Request(session)
       .setMethod('POST')
       .setResource('mutePostsAndStory')
       .generateUUID()
