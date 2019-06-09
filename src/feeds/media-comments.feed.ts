@@ -23,8 +23,10 @@ export class MediaCommentsFeed extends AbstractFeed<CommentResponse> {
       .setResource('mediaComments', resource)
       .send()
       .catch(reason => {
-        if (reason.json.message === 'Media is unavailable') throw new MediaUnavailableError();
-        else throw reason;
+        if (typeof reason.json !== 'undefined') {
+          if (reason.json.message === 'Media is unavailable') throw new MediaUnavailableError();
+          else throw reason;
+        }
       });
     data.next_max_id ? (this.cursorType = 'maxId') : (this.cursorType = 'minId');
 
