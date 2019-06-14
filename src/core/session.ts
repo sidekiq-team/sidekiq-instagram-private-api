@@ -92,6 +92,7 @@ export class Session {
     storage: CookieStorage,
     username: string,
     password: string,
+    runLoginFlow: boolean = false,
     proxy?: string,
   ): Bluebird<Session> {
     const session = new Session(device, storage);
@@ -101,19 +102,21 @@ export class Session {
         .getAccountId()
         .then(() => session)
         // We either not have valid cookes or authentication is not fain!
-        .catch(CookieNotValidError, () => Session.login(session, username, password))
+        .catch(CookieNotValidError, () => Session.login(session, username, password, runLoginFlow))
     );
   }
 
   /**
    *  @deprecated Use Session instance methods for login instead of static
    */
-  static login(session: Session, username: string, password: string): Bluebird<Session> {
+  static login(session: Session, username: string, password: string, runLoginFlow: boolean = false): Bluebird<Session> {
     return Bluebird.try(async () => {
       await session.preLoginFlow();
       await session.login(username, password);
       // Call login flow after returning the result
-      _.defer(async () => await session.loginFlow());
+      if (runLoginFlow) {
+        _.defer(async () => await session.loginFlow());
+      }
       return session;
     });
   }
